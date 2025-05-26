@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+    <link rel="shortcut icon" href="icon.png" type="image/x-icon">
+    <title>Wordle</title>
+</head>
+
+<body>
+    <div class="info"></div>
+    <div class="over">
+        <div class="endBox">
+            <div class="end"></div>
+            <div class="score">The word was: <br> <span class="word">NIGGA</span></div>
+            <div class="again" onclick="restart()">PLAY AGAIN</div>
+        </div>
+    </div>
+
+    <div class="grid">
+        <div class="row" id="1">
+            <div class="cube" id="1"></div>
+            <div class="cube" id="2"></div>
+            <div class="cube" id="3"></div>
+            <div class="cube" id="4"></div>
+            <div class="cube" id="5"></div>
+        </div>
+        <div class="row" id="2">
+            <div class="cube" id="1"></div>
+            <div class="cube" id="2"></div>
+            <div class="cube" id="3"></div>
+            <div class="cube" id="4"></div>
+            <div class="cube" id="5"></div>
+        </div>
+        <div class="row" id="3">
+            <div class="cube" id="1"></div>
+            <div class="cube" id="2"></div>
+            <div class="cube" id="3"></div>
+            <div class="cube" id="4"></div>
+            <div class="cube" id="5"></div>
+        </div>
+        <div class="row" id="4">
+            <div class="cube" id="1"></div>
+            <div class="cube" id="2"></div>
+            <div class="cube" id="3"></div>
+            <div class="cube" id="4"></div>
+            <div class="cube" id="5"></div>
+        </div>
+        <div class="row" id="5">
+            <div class="cube" id="1"></div>
+            <div class="cube" id="2"></div>
+            <div class="cube" id="3"></div>
+            <div class="cube" id="4"></div>
+            <div class="cube" id="5"></div>
+        </div>
+        <div class="row" id="6">
+            <div class="cube" id="1"></div>
+            <div class="cube" id="2"></div>
+            <div class="cube" id="3"></div>
+            <div class="cube" id="4"></div>
+            <div class="cube" id="5"></div>
+        </div>
+
+    </div>
+    <div class="keyboard">
+        <div class="row1">
+            <div class="key">Q</div>
+            <div class="key">W</div>
+            <div class="key">E</div>
+            <div class="key">R</div>
+            <div class="key">T</div>
+            <div class="key">Y</div>
+            <div class="key">U</div>
+            <div class="key">I</div>
+            <div class="key">O</div>
+            <div class="key">P</div>
+        </div>
+        <div class="row2">
+            <div class="key">A</div>
+            <div class="key">S</div>
+            <div class="key">D</div>
+            <div class="key">F</div>
+            <div class="key">G</div>
+            <div class="key">H</div>
+            <div class="key">J</div>
+            <div class="key">K</div>
+            <div class="key">L</div>
+        </div>
+        <div class="row3">
+            <div class="key">⌫</div>
+            <div class="key">Z</div>
+            <div class="key">X</div>
+            <div class="key">C</div>
+            <div class="key">V</div>
+            <div class="key">B</div>
+            <div class="key">N</div>
+            <div class="key">M</div>
+            <div class="key">↵</div>
+        </div>
+    </div>
+</body>
+
+</html>
