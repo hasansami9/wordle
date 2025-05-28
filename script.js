@@ -27,12 +27,14 @@ addEventListener("keydown", (e) => {
 })
 
 for (let i = 0; i < key.length; i++) {
-    ['touchend', 'mousedown'].forEach(e => {
-        e.preventDefault()
-        key[i].addEventListener(e, keyboard)
-        
-    })
+  ['touchend', 'mousedown'].forEach(eventType => {
+    key[i].addEventListener(eventType, function(e) {
+      e.preventDefault();
+      keyboard(e);
+    });
+  });
 }
+
 
 scaleLayout();
 function scaleLayout() {
