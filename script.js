@@ -27,7 +27,11 @@ addEventListener("keydown", (e) => {
 })
 
 for (let i = 0; i < key.length; i++) {
-    ['touchstart', 'mousedown'].forEach(e => key[i].addEventListener(e, keyboard))
+    ['touchend', 'mousedown'].forEach(e => {
+        e.preventDefault()
+        key[i].addEventListener(e, keyboard)
+        
+    })
 }
 
 scaleLayout();
