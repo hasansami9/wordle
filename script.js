@@ -30,6 +30,8 @@ for (let i = 0; i < key.length; i++) {
     ['touchstart', 'mousedown'].forEach(e => key[i].addEventListener(e, keyboard))
 }
 
+scaleLayout();
+function scaleLayout() {
 const root = document.documentElement; // or a wrapper element like .grid
 
   const vw = window.innerWidth;
@@ -51,7 +53,8 @@ const root = document.documentElement; // or a wrapper element like .grid
           root.style.transformOrigin = `center top`;
     }
   root.style.transform = `scale(${finalScale})`;
-
+}
+window.addEventListener("resize", scaleLayout);
 
 function keyboard(e) {
     if (e.target.id !== 'enter' || 'back') {
