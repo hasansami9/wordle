@@ -32,13 +32,12 @@ for (let i = 0; i < key.length; i++) {
 
 const root = document.documentElement; // or a wrapper element like .grid
 
-function scaleLayout() {
   const vw = window.innerWidth;
   const vh = window.innerHeight;
 
   // Define base design size (same as what you designed for)
-  const baseWidth = 700;  // change if your design base is wider
-  const baseHeight = 1000; // change if your layout is taller
+  const baseWidth = 750;  // change if your design base is wider
+  const baseHeight = 1100; // change if your layout is taller
 
   // Get the scale factors
   const scaleX = vw / baseWidth;
@@ -48,11 +47,10 @@ function scaleLayout() {
   const finalScale = Math.min(scaleX, scaleY);
 
   // Apply it to a container or html/body
+    if (vh < 650) {
+          root.style.transformOrigin = `center top`;
+    }
   root.style.transform = `scale(${finalScale})`;
-}
-
-window.addEventListener("resize", scaleLayout);
-scaleLayout();
 
 
 function keyboard(e) {
