@@ -10,6 +10,7 @@ body {
     align-items: center;
     font-family: "Roboto", sans-serif;
     user-select: none;
+    transform-origin: center;
 }
 
 .cube {
@@ -28,7 +29,7 @@ body {
 }
 
 .grid {
-    padding-top: 90px;
+    padding-top: clamp(10px, 6vw, 90px);
     padding-bottom: 50px;
     display: flex;
     flex-direction: column;
@@ -51,6 +52,10 @@ body {
     align-content: center;
     margin: 4px;
     transition: all 0.3s ease;
+}
+
+.key:hover {
+    cursor: pointer;
 }
 
 .keyboard {
@@ -166,4 +171,12 @@ body {
 
 span.word {
     font-weight: 500;
+}
+
+.over,
+.endBox,
+.again,
+.end,
+.score {
+    display: none;
 }
