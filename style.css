@@ -63,6 +63,9 @@ body {
   align-content: center;
   margin: 4px;
   transition: all 0.3s ease;
+  display: flex; /* add this */
+  justify-content: center; /* horizontal centering */
+  align-items: center;   
 }
 
 .key:hover {
