@@ -2349,6 +2349,7 @@ for (let i = 0; i < key.length; i++) {
 
 scaleLayout();
 function scaleLayout() {
+  const endingWrap = document.getElementsByClassName("ending")[0]
   const wrap = document.getElementsByClassName("wrapper")[0];
   const vw = window.visualViewport.width;
   const vh = window.visualViewport.height;
@@ -2363,6 +2364,7 @@ function scaleLayout() {
   } else wrap.style.transformOrigin = `center`;
 
   wrap.style.transform = `scale(${finalScale})`;
+  endingWrap.style.transform = `scale(${finalScale})`;
 }
 window.addEventListener("resize", scaleLayout);
 
@@ -2481,7 +2483,7 @@ function keypress(e) {
           endBox.style.display = "flex";
           endTxt.style.display = "block";
           answer.style.display = "block";
-          overlay.style.display = "flex";
+          overlay.style.display = "block";
           buttonAgain.style.display = "block";
           // endTxt.style.opacity = '1'
           overlay.style.opacity = "1";
@@ -2505,7 +2507,7 @@ function keypress(e) {
           buttonAgain.style.opacity = "1";
         }
       } else {
-        info.innerHTML = "Word not found";
+        info.innerHTML = "Word Not Found";
         info.style.opacity = "1";
         setTimeout(() => {
           info.style.opacity = "0";
