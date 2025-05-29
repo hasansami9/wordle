@@ -2332,194 +2332,209 @@ let splitWord = [];
 let cubes;
 let win = false;
 let correct = 0;
+let validWords;
 
-addEventListener("keydown", (e) => {
-  e.preventDefault();
-  keypress(e.key);
-});
+fetch("words.txt")
+  .then((res) => res.text())
+  .then((text) => {
+    validWords = text.split(/\r?\n/);
 
-for (let i = 0; i < key.length; i++) {
-  ["touchend", "mousedown"].forEach((eventType) => {
-    key[i].addEventListener(eventType, function (e) {
+    addEventListener("keydown", (e) => {
       e.preventDefault();
-      keyboard(e);
+      keypress(e.key);
     });
-  });
-}
 
-scaleLayout();
-function scaleLayout() {
-  const endingWrap = document.getElementsByClassName("ending")[0]
-  const wrap = document.getElementsByClassName("wrapper")[0];
-  const vw = window.visualViewport.width;
-  const vh = window.visualViewport.height;
-  const baseWidth = 660;
-  const baseHeight = 900;
-  const scaleX = vw / baseWidth;
-  const scaleY = vh / baseHeight;
-  const finalScale = Math.min(scaleX, scaleY);
-
-  if (vh < 630) {
-    wrap.style.transformOrigin = `center top`;
-  } else wrap.style.transformOrigin = `center`;
-
-  wrap.style.transform = `scale(${finalScale})`;
-  endingWrap.style.transform = `scale(${finalScale})`;
-}
-window.addEventListener("resize", scaleLayout);
-
-function keyboard(e) {
-  if (e.target.id !== "enter" || "back") {
-    keypress(e.target.innerHTML);
-  }
-  if (e.target.id == "enter") {
-    keypress("Enter");
-  } else if (e.target.id == "back") {
-    keypress("Backspace");
-  }
-}
-
-function restart() {
-  currentRow = 0;
-  currentBox = 0;
-  genWrd = words[Math.floor(Math.random() * words.length)];
-  genLetterCount = {};
-  genWrdArr = genWrd.toUpperCase().split("");
-  wordsAdded = [[], [], [], [], [], []];
-  splitWord = [];
-  win = false;
-  correct = 0;
-  endBox.style.display = "none";
-  endTxt.style.display = "none";
-  answer.style.display = "none";
-  overlay.style.display = "none";
-  buttonAgain.style.display = "none";
-  overlay.style.opacity = "0";
-  endBox.style.opacity = "0";
-  buttonAgain.style.opacity = "0";
-  for (let i = 0; i < cube.length; i++) {
-    cube[i].innerHTML = "";
-    cube[i].style.backgroundColor = "";
-    cube[i].style.color = "rgb(201, 201, 201)";
-  }
-  for (let i = 0; i < key.length; i++) {
-    key[i].style.backgroundColor = "";
-    key[i].style.color = "rgb(201, 201, 201)";
-  }
-}
-
-function keyboardColor(letter, color) {
-  letter = letter.toUpperCase();
-  for (let i = 0; i < key.length; i++) {
-    if (key[i].innerHTML == letter && color == "green") {
-      key[i].style.backgroundColor = "#58a351"; //green
-      key[i].style.color = "white";
-    } else if (key[i].innerHTML == letter && color == "yellow") {
-      key[i].style.backgroundColor = "#ba9817"; //yellow
-      key[i].style.color = "white";
-    } else if (key[i].innerHTML == letter && color == "grey") {
-      key[i].style.backgroundColor = "rgb(49, 49, 49)"; //grey
+    for (let i = 0; i < key.length; i++) {
+      ["touchend", "mousedown"].forEach((eventType) => {
+        key[i].addEventListener(eventType, function (e) {
+          e.preventDefault();
+          keyboard(e);
+        });
+      });
     }
-  }
-}
 
-function keypress(e) {
-  if (currentRow <= 5 && win == false) {
-    if (/^[a-zA-Z]$/.test(e) && currentBox <= 4) {
-      for (let i = 0; i < 6; i++) {
-        if (row[i].id == (currentRow + 1).toString()) {
-          for (let j = 0; j < 5; j++) {
-            cubeInRow = row[i].getElementsByClassName("cube");
-            if (cubeInRow[j].id == (currentBox + 1).toString()) {
-              cubeInRow[j].innerHTML = e.toUpperCase();
+    ["mousedown", "touchend"].forEach((evt) =>
+      buttonAgain.addEventListener(evt, (e) => {
+        e.preventDefault(); // prevents double fire
+        restart();
+      })
+    );
+
+    scaleLayout();
+    function scaleLayout() {
+      const endingWrap = document.getElementsByClassName("ending")[0];
+      const wrap = document.getElementsByClassName("wrapper")[0];
+      const vw = window.visualViewport.width;
+      const vh = window.visualViewport.height;
+      const baseWidth = 660;
+      const baseHeight = 900;
+      const scaleX = vw / baseWidth;
+      const scaleY = vh / baseHeight;
+      const finalScale = Math.min(scaleX, scaleY);
+
+      if (vh < 630) {
+        wrap.style.transformOrigin = `center top`;
+      } else wrap.style.transformOrigin = `center`;
+
+      wrap.style.transform = `scale(${finalScale})`;
+      endingWrap.style.transform = `scale(${finalScale})`;
+    }
+    window.addEventListener("resize", scaleLayout);
+
+    function keyboard(e) {
+      if (e.target.id !== "enter" || "back") {
+        keypress(e.target.innerHTML);
+      }
+      if (e.target.id == "enter") {
+        keypress("Enter");
+      } else if (e.target.id == "back") {
+        keypress("Backspace");
+      }
+    }
+
+    function restart() {
+      currentRow = 0;
+      currentBox = 0;
+      genWrd = words[Math.floor(Math.random() * words.length)];
+      genLetterCount = {};
+      genWrdArr = genWrd.toUpperCase().split("");
+      wordsAdded = [[], [], [], [], [], []];
+      splitWord = [];
+      win = false;
+      correct = 0;
+      endBox.style.display = "none";
+      endTxt.style.display = "none";
+      answer.style.display = "none";
+      overlay.style.display = "none";
+      buttonAgain.style.display = "none";
+      overlay.style.opacity = "0";
+      endBox.style.opacity = "0";
+      buttonAgain.style.opacity = "0";
+      for (let i = 0; i < cube.length; i++) {
+        cube[i].innerHTML = "";
+        cube[i].style.backgroundColor = "";
+        cube[i].style.color = "rgb(201, 201, 201)";
+      }
+      for (let i = 0; i < key.length; i++) {
+        key[i].style.backgroundColor = "";
+        key[i].style.color = "rgb(201, 201, 201)";
+      }
+    }
+
+    function keyboardColor(letter, color) {
+      letter = letter.toUpperCase();
+      for (let i = 0; i < key.length; i++) {
+        if (key[i].innerHTML == letter && color == "green") {
+          key[i].style.backgroundColor = "#58a351"; //green
+          key[i].style.color = "white";
+        } else if (key[i].innerHTML == letter && color == "yellow") {
+          key[i].style.backgroundColor = "#ba9817"; //yellow
+          key[i].style.color = "white";
+        } else if (key[i].innerHTML == letter && color == "grey") {
+          key[i].style.backgroundColor = "rgb(49, 49, 49)"; //grey
+        }
+      }
+    }
+
+    function keypress(e) {
+      if (currentRow <= 5 && win == false) {
+        if (/^[a-zA-Z]$/.test(e) && currentBox <= 4) {
+          for (let i = 0; i < 6; i++) {
+            if (row[i].id == (currentRow + 1).toString()) {
+              for (let j = 0; j < 5; j++) {
+                cubeInRow = row[i].getElementsByClassName("cube");
+                if (cubeInRow[j].id == (currentBox + 1).toString()) {
+                  cubeInRow[j].innerHTML = e.toUpperCase();
+                }
+              }
             }
           }
+          wordsAdded[currentRow].push(e.toUpperCase());
+          currentBox++;
         }
-      }
-      wordsAdded[currentRow].push(e.toUpperCase());
-      currentBox++;
-    }
 
-    if (e == "Enter" && currentBox == 5) {
-      if (words.includes(wordsAdded[currentRow].join("").toLowerCase())) {
-        genLetterCount = {};
-        genWrdArr.forEach((e) => {
-          genLetterCount[e] = (genLetterCount[e] || 0) + 1;
-        });
-        correct = 0;
-        wordsAdded[currentRow].forEach((ele, num) => {
-          cubes = row[currentRow].getElementsByClassName("cube");
+        if (e == "Enter" && currentBox == 5) {
+          if (validWords.includes(wordsAdded[currentRow].join("").toLowerCase())) {
+            genLetterCount = {};
+            genWrdArr.forEach((e) => {
+              genLetterCount[e] = (genLetterCount[e] || 0) + 1;
+            });
+            correct = 0;
+            wordsAdded[currentRow].forEach((ele, num) => {
+              cubes = row[currentRow].getElementsByClassName("cube");
 
-          if (genWrdArr[num] == ele) {
-            cubes[num].style.backgroundColor = "#58a351"; //green
-            cubes[num].style.color = "white";
-            keyboardColor(ele, "green");
-            correct++;
-            genLetterCount[ele]--;
-          } else keyboardColor(ele, "grey");
-        });
+              if (genWrdArr[num] == ele) {
+                cubes[num].style.backgroundColor = "#58a351"; //green
+                cubes[num].style.color = "white";
+                keyboardColor(ele, "green");
+                correct++;
+                genLetterCount[ele]--;
+              } else keyboardColor(ele, "grey");
+            });
 
-        wordsAdded[currentRow].forEach((ele, num) => {
-          cubes = row[currentRow].getElementsByClassName("cube");
+            wordsAdded[currentRow].forEach((ele, num) => {
+              cubes = row[currentRow].getElementsByClassName("cube");
 
-          if (
-            genWrdArr.includes(ele) &&
-            genLetterCount[ele] > 0 &&
-            cubes[num].style.backgroundColor != "rgb(88, 163, 81)"
-          ) {
-            cubes[num].style.backgroundColor = "#ba9817"; //yellow
-            cubes[num].style.color = "white";
-            keyboardColor(ele, "yellow");
-            genLetterCount[ele]--;
+              if (
+                genWrdArr.includes(ele) &&
+                genLetterCount[ele] > 0 &&
+                cubes[num].style.backgroundColor != "rgb(88, 163, 81)"
+              ) {
+                cubes[num].style.backgroundColor = "#ba9817"; //yellow
+                cubes[num].style.color = "white";
+                keyboardColor(ele, "yellow");
+                genLetterCount[ele]--;
+              }
+            });
+            currentBox = 0;
+            currentRow++;
+            if (correct == 5) {
+              win = true;
+              endTxt.innerHTML = "You Won";
+              endBox.style.boxShadow = "0 0 20px rgb(0, 89, 10)";
+              word.innerHTML = genWrd.toUpperCase();
+              endBox.style.display = "flex";
+              endTxt.style.display = "block";
+              answer.style.display = "block";
+              overlay.style.display = "block";
+              buttonAgain.style.display = "block";
+              // endTxt.style.opacity = '1'
+              overlay.style.opacity = "1";
+              endBox.style.opacity = "1";
+              // answer.style.opacity = '1'
+              buttonAgain.style.display = "block";
+              buttonAgain.style.opacity = "1";
+            } else if (currentRow == 6) {
+              endTxt.innerHTML = "You Lose";
+              endBox.style.boxShadow = "0 0 20px rgb(89, 0, 0)";
+              word.innerHTML = genWrd.toUpperCase();
+              endBox.style.display = "flex";
+              endTxt.style.display = "block";
+              answer.style.display = "block";
+              overlay.style.display = "flex";
+              buttonAgain.style.display = "block";
+              overlay.style.opacity = "1";
+              endBox.style.opacity = "1";
+              // answer.style.opacity = '1'
+              buttonAgain.style.display = "block";
+              buttonAgain.style.opacity = "1";
+            }
+          } else {
+            info.innerHTML = "Word Not Found";
+            info.style.opacity = "1";
+            setTimeout(() => {
+              info.style.opacity = "0";
+            }, 1600);
           }
-        });
-        currentBox = 0;
-        currentRow++;
-        if (correct == 5) {
-          win = true;
-          endTxt.innerHTML = "You Won";
-          endBox.style.boxShadow = "0 0 20px rgb(0, 89, 10)";
-          word.innerHTML = genWrd.toUpperCase();
-          endBox.style.display = "flex";
-          endTxt.style.display = "block";
-          answer.style.display = "block";
-          overlay.style.display = "block";
-          buttonAgain.style.display = "block";
-          // endTxt.style.opacity = '1'
-          overlay.style.opacity = "1";
-          endBox.style.opacity = "1";
-          // answer.style.opacity = '1'
-          buttonAgain.style.display = "block";
-          buttonAgain.style.opacity = "1";
-        } else if (currentRow == 6) {
-          endTxt.innerHTML = "You Lose";
-          endBox.style.boxShadow = "0 0 20px rgb(89, 0, 0)";
-          word.innerHTML = genWrd.toUpperCase();
-          endBox.style.display = "flex";
-          endTxt.style.display = "block";
-          answer.style.display = "block";
-          overlay.style.display = "flex";
-          buttonAgain.style.display = "block";
-          overlay.style.opacity = "1";
-          endBox.style.opacity = "1";
-          // answer.style.opacity = '1'
-          buttonAgain.style.display = "block";
-          buttonAgain.style.opacity = "1";
         }
-      } else {
-        info.innerHTML = "Word Not Found";
-        info.style.opacity = "1";
-        setTimeout(() => {
-          info.style.opacity = "0";
-        }, 1600);
+
+        if (e == "Backspace" && currentBox > 0) {
+          currentBox--;
+          cubes = row[currentRow].getElementsByClassName("cube");
+          cubes[currentBox].innerHTML = "";
+          wordsAdded[currentRow].pop();
+        }
       }
     }
-
-    if (e == "Backspace" && currentBox > 0) {
-      currentBox--;
-      cubes = row[currentRow].getElementsByClassName("cube");
-      cubes[currentBox].innerHTML = "";
-      wordsAdded[currentRow].pop();
-    }
-  }
-}
+  })
+  .catch(console.error);
