@@ -28,6 +28,9 @@ body {
 .cube {
   border: 2px solid rgba(255, 255, 255, 0.2);
   border-radius: 2px;
+  display: flex; /* add this */
+  justify-content: center; /* horizontal centering */
+  align-items: center;  
   width: 70px;
   height: 70px;
   box-sizing: border-box;
